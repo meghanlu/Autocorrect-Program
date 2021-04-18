@@ -12,11 +12,12 @@ There are 3 main autocorrect algorithms:
 -Whitespace
 -Levenshtein Edit Distance
 
-For week 1, I want to set up the structure for the program (i.e. taking in a string and checking each word) and
-implement the spellcheck feature (i.e. checking each word to see if it is a legitimate word). 
+For week 1, I want to implement the spellcheck feature 
+(i.e. checking each word to see if it is a legitimate word). 
 I will also implement the autocomplete and whitespace algorithms for the autocorrect feature.
 For week 2, I want to implement the Levenshtein Edit Distance(the most complicated) 
-autocorrect algorithm.
+autocorrect algorithm and implement both features on a string 
+(i.e. taking in a string and checking each word individually).
 By the end of week 3, I want to connect everything to a user interface on Cinder.
 
 If I have extra time, I could implement simple grammar checking or improve the design of my UI.
