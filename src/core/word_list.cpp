@@ -24,4 +24,14 @@ namespace autocorrect {
     }
 
 
+
+    string WordList::ConvertToLowercaseString(string const& string) {
+        std::string lowercase_string;
+        for (char str_char : string) {
+            lowercase_string += tolower(str_char);
+        }
+        return lowercase_string;
+    }
+
+
 } // namespace autocorrect
