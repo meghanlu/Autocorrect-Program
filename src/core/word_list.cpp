@@ -23,7 +23,14 @@ namespace autocorrect {
         return is;
     }
 
-
+    void WordList::AlphabetizeWords() {
+        if (is_alphabetized_) return;
+        auto compare_alphabetically = [this](std::string a, std::string b) {
+            string lowercase_a = ConvertToLowercaseString(a);
+            string lowercase_b = ConvertToLowercaseString(b);
+            return lowercase_a < lowercase_b;};
+        std::sort(words_.begin(), words_.end(), compare_alphabetically);
+    }
 
     string WordList::ConvertToLowercaseString(string const& string) {
         std::string lowercase_string;
