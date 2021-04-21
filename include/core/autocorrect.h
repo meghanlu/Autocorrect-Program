@@ -20,6 +20,10 @@ namespace autocorrect {
     public:
         Autocorrect();
         Autocorrect(Dictionary const& dictionary);
+
+        /**
+         * Gives a map with words that are incorrect and a vector of possible corrections.
+         */
         std::map<std::string, std::vector<std::string>> GiveFeedback(string const& str);
 
     private:
