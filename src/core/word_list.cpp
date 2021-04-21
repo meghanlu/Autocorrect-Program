@@ -10,6 +10,10 @@ namespace autocorrect {
         AlphabetizeWords();
     }
 
+    vector<string> WordList::GetWordVector() {
+        return words_;
+    }
+
     std::istream &operator>>(std::istream &is, WordList &word_list) {
         // Clear previous word list
         word_list.words_.clear();
