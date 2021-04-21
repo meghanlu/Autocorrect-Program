@@ -20,6 +20,7 @@ namespace autocorrect {
     public:
         Autocorrect();
         Autocorrect(Dictionary const& dictionary);
+        std::map<std::string, std::vector<std::string>> GiveFeedback(string const& str);
 
     private:
         SymSpell sym_spell;
