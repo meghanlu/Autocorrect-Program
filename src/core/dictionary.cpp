@@ -2,7 +2,9 @@
 
 namespace autocorrect {
 
-
+    bool Dictionary::IsWordInDictionary(string const& word) const {
+        return !(words_set_.find(word) == words_set_.end());
+    }
 
     void Dictionary::InitializeVariables(vector<string>  const& word_vector) {
         word_vector_ = word_vector;
