@@ -2,6 +2,18 @@
 
 namespace autocorrect {
 
+    Dictionary::Dictionary(){
+        InitializeVariables(vector<string>{});
+    }
+    Dictionary::Dictionary(Dictionary const &d){
+        word_vector_ = d.word_vector_;
+        words_set_ = d.words_set_;
+    }
+
+    Dictionary::Dictionary(WordList word_list) {
+        InitializeVariables(word_list.GetWordVector());
+    }
+
     bool Dictionary::IsWordInDictionary(string const& word) const {
         return !(words_set_.find(word) == words_set_.end());
     }
