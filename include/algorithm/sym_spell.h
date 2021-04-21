@@ -21,15 +21,23 @@ namespace algorithm {
 
         SymSpell(Dictionary const &dictionary);
 
-
-
-
+        /**
+         * Gets similar words to a given word from a given dictionary.
+         */
         vector<string> GetSimilarWords(const string &word, const Dictionary &dictionary);
 
     private:
         size_t prefix_length_ = 7;
         unordered_map<string, vector<string>> deletes_;
+
+        /**
+         * Generates all delete possibilities for a word.
+         */
         vector<string> GenerateDeletes(string const &word);
+
+        /**
+         * Generates and stores precalculated deletes for a given dictionary.
+         */
         void GeneratePrecalculatedDeletes(Dictionary const &dictionary);
 
     };
