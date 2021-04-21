@@ -25,4 +25,9 @@ namespace autocorrect {
         }
 
     }
+
+    vector<string> Dictionary::GetWordVector() const {
+        return word_vector_;
+    }
+
 } // namespace autocorrect
