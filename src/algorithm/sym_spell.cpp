@@ -26,7 +26,30 @@ namespace algorithm {
 
     }
 
-
+    vector<string> SymSpell::GetSimilarWords(const string &word,
+                                             const autocorrect::Dictionary &dictionary) {
+        vector<string> words_to_return;
+        vector<string> input_deletes = GenerateDeletes(word);
+        for (const auto &it : deletes_) {
+            if (it.first == word) {
+                words_to_return.insert(words_to_return.end(), it.second.begin(),
+                                       it.second.end());
+            }
+        }
+        for (const string &input_delete : input_deletes) {
+            if (dictionary.IsWordInDictionary(input_delete)) {
+                words_to_return.push_back(input_delete);
+            }
+            for (const auto &it : deletes_) {
+                if (it.first == input_delete) {
+                    words_to_return.insert(words_to_return.end(), it.second.begin(),
+                                           it.second.end());
+                }
+            }
+        }
+        //delete(dictionary entry,p1)==delete(input entry,p2) (TRANSPOSES/REPLACES)
+        return words_to_return;
+    }
 
 
     vector<string> SymSpell::GenerateDeletes(string const &word) {
