@@ -10,6 +10,24 @@ namespace algorithm {
         GeneratePrecalculatedDeletes();
     }
 
+    void SymSpell::GeneratePrecalculatedDeletes(Dictionary const &dictionary) {
+        for (string const &word : dictionary.GetWordVector()) {
+            for (string const &delete_string : GenerateDeletes(word)) {
+                auto delete_string_itr = deletes_.find(delete_string);
+                if (delete_string_itr == deletes_.end()) {
+                    deletes_.insert({delete_string, vector<string>{word}});
+                    //deletes_.insert(std::make_pair<string>(delete_string ,vector<string>{word}));
+                } else {
+                    // TODO: sort suggested word vector by frequency count!!
+                    delete_string_itr->second.push_back(word);
+                }
+            }
+        }
+
+    }
+
+
+
 
     vector<string> SymSpell::GenerateDeletes(string const &word) {
         vector<std::pair<string, string>> string_splits;
