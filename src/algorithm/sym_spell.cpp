@@ -5,11 +5,6 @@ namespace algorithm {
         GeneratePrecalculatedDeletes(dictionary);
     }
 
-    SymSpell::SymSpell(Dictionary const& dictionary, size_t prefix_length)
-                    : dictionary_(dictionary), prefix_length_(prefix_length){
-        GeneratePrecalculatedDeletes();
-    }
-
     void SymSpell::GeneratePrecalculatedDeletes(Dictionary const &dictionary) {
         for (string const &word : dictionary.GetWordVector()) {
             for (string const &delete_string : GenerateDeletes(word)) {
