@@ -85,5 +85,40 @@ namespace autocorrect {
             }
             return delete_vector;
         }
+
+        size_t SymSpell::GetLevenshteinDistance(const string &s1, const string &s2)
+        {
+            const size_t m(s1.size()), n(s2.size());
+
+            if( m==0 ) return n;
+            if( n==0 ) return m;
+
+            size_t *costs = new size_t[n + 1];
+
+            for( size_t k=0; k<=n; k++ ) costs[k] = k;
+
+            size_t i = 0;
+            for (char const &c1 : s1)
+            {
+                costs[0] = i+1;
+                size_t corner { i }, j { 0 };
+                for (char const &c2 : s2)
+                {
+                    size_t upper { costs[j+1] };
+                    if( c1 == c2 ) costs[j+1] = corner;
+                    else {
+                        size_t t(upper<corner? upper: corner);
+                        costs[j+1] = (costs[j]<t?costs[j]:t)+1;
+                    }
+
+                    corner = upper;
+                    j++;
+                }
+                i++;
+            }
+            size_t result = costs[n];
+            delete[] costs;
+            return result;
+        }
     } //namespace algorithm
 } // namespace autocorrect
