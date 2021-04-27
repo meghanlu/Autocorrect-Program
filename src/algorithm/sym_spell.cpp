@@ -2,7 +2,10 @@
 namespace autocorrect {
     namespace algorithm {
 
-
+        SymSpell::SymSpell(const Dictionary &dictionary, size_t ed) :
+                kEditDistance(ed) {
+            SetDictionary(dictionary);
+        }
 
         void SymSpell::SetDictionary(Dictionary const& dictionary) {
             GeneratePrecalculatedDeletes(dictionary);
