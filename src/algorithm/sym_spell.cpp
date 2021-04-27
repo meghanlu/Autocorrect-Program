@@ -86,6 +86,24 @@ namespace autocorrect {
             return delete_vector;
         }
 
+        vector<string> SymSpell::GenerateInputStringDeletes(Dictionary const& dict,
+                                                            const string &word) {
+            vector<string> input_deletes = GenerateDeletes(dict, word);
+            unordered_set<string> deletes_set(input_deletes.begin(),
+                                              input_deletes.end());
+
+            for (size_t ed = 1; ed < kEditDistance; ed++) {
+                for (const string &input_delete : input_deletes) {
+                    for (string const& del : GenerateDeletes(dict, word)) {
+                        deletes_set.insert(del);
+                    }
+                }
+                input_deletes.assign(deletes_set.begin(), deletes_set.end());
+            }
+
+            return input_deletes;
+        }
+
         bool SymSpell::IsWithinEditDistance(const string &original,
                                             const string &other, size_t edit_distance) {
             return GetLevenshteinDistance(original, other) <= edit_distance;
