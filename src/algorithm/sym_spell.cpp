@@ -46,7 +46,7 @@ namespace autocorrect {
         }
 
 
-        vector<string> SymSpell::GenerateDeletes(string const &word) {
+        vector<string> SymSpell::GenerateDeletes(Dictionary const& dictionary, string const &word) {
             vector<std::pair<string, string>> string_splits;
             size_t prefix_length = (word.size() > kPrefixLength) ? kPrefixLength : word.size();
             for (size_t i = 0; i < prefix_length; i++) {
@@ -58,6 +58,7 @@ namespace autocorrect {
             for (std::pair<string, string> const &split_pair : string_splits) {
                 string delete_string = split_pair.first +
                                        split_pair.second.substr(1, split_pair.second.size() - 1);
+                //if (!dictionary.IsWordInDictionary(delete_string))
                 delete_vector.push_back(delete_string);
             }
             return delete_vector;
