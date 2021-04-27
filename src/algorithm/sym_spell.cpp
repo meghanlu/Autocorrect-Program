@@ -45,6 +45,28 @@ namespace autocorrect {
             return words_to_return;
         }
 
+        vector<string> SymSpell::SortWordsByFrequency(Dictionary const& dictionary,
+                                                      vector<string> word_vector) {
+            vector<std::pair<double, string>> frequencies;
+            vector<string> sorted_words;
+            for (string const& s : word_vector) {
+                frequencies.push_back(std::make_pair(dictionary.GetWordFrequency(s), s));
+            }
+
+            auto compare_by_frequency = [](std::pair<double, string>& a,
+                                           std::pair<double, string>& b) {
+                return a.first > b.first;};
+
+            std::sort(frequencies.begin(), frequencies.end(),
+                      compare_by_frequency);
+
+            for(auto const& freq_word_pair : frequencies) {
+                sorted_words.push_back(freq_word_pair.second);
+                if (sorted_words.size() >= kMaxSuggestedWords) break;
+            }
+            return sorted_words;
+        }
+
 
         vector<string> SymSpell::GenerateDeletes(Dictionary const& dictionary, string const &word) {
             vector<std::pair<string, string>> string_splits;
