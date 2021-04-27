@@ -18,18 +18,21 @@ namespace autocorrect {
     public:
         Dictionary();
         Dictionary(Dictionary const &d);
-        Dictionary(WordList word_list);
+        Dictionary(WordList const& word_list);
 
         /**
          * Returns if a given word is in the dictionary.
          */
         bool IsWordInDictionary(const string& word) const;
+
+        double GetWordFrequency(string const& word) const;
         vector<string> GetWordVector() const;
+        bool ContainsFrequencies() const {return !word_frequencies_.empty();};
 
     private:
+        unordered_map<string, double> word_frequencies_;
         std::unordered_set<string> words_set_;
         vector<string> word_vector_;
-        //unordered_map<char, vector<string>> words_by_first_letter_;
 
         /**
          * Initializes dictionary data structures.
