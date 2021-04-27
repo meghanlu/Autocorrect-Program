@@ -2,10 +2,14 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <utility>
+#include <unordered_map>
+#include <math.h>
 
 namespace autocorrect {
     using std::string;
     using std::vector;
+    using std::unordered_map;
 
     class WordList {
 
@@ -23,15 +27,26 @@ namespace autocorrect {
          */
         WordList(vector<string> const& word_vec, bool is_alphabetized);
 
-        /**
+        WordList(bool is_alphabetized, bool contains_frequencies);
+
+/**
          * Writes a file of words into a Word List object.
          */
         friend std::istream &operator>>(std::istream &is, WordList &word_list);
-        vector<string> GetWordVector();
+        vector<string> GetWordVector() const;
+        void AddWordVector(const vector <string> &word_vec);
+        bool ContainsFrequencies() const {return contains_frequencies_;} ;
+        unordered_map<string, double> GetWordFrequencies() const {
+            return words_and_frequencies_;} ;
+        static string WordList::ConvertStringToLowercase(string const& string);
+
+
 
     private:
+        bool contains_frequencies_ = false;
+        unordered_map<string, double> words_and_frequencies_;
         // If word list needs to be alphabetized
-        bool is_alphabetized_;
+        bool is_alphabetized_ = false;
         // List of words
         vector<string> words_;
 
@@ -43,7 +58,7 @@ namespace autocorrect {
         /**
          * Converts given string to lowercase string.
          */
-        string WordList::ConvertToLowercaseString(string const& string);
+
     };
 
 }  // namespace autocorrect
