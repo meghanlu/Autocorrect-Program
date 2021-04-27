@@ -86,6 +86,11 @@ namespace autocorrect {
             return delete_vector;
         }
 
+        bool SymSpell::IsWithinEditDistance(const string &original,
+                                            const string &other, size_t edit_distance) {
+            return GetLevenshteinDistance(original, other) <= edit_distance;
+        }
+
         size_t SymSpell::GetLevenshteinDistance(const string &s1, const string &s2)
         {
             const size_t m(s1.size()), n(s2.size());
