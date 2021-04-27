@@ -22,13 +22,17 @@ namespace autocorrect {
 
             SymSpell(Dictionary const &dictionary);
 
-            /**
+            SymSpell(const Dictionary &dictionary, size_t ed);
+
+/**
              * Gets similar words to a given word from a given dictionary.
              */
             vector<string> GetSimilarWords(const string &word, const Dictionary &dictionary);
 
         private:
-            size_t prefix_length_ = 7;
+            const size_t kEditDistance;
+            const size_t kMaxSuggestedWords = 5;
+            const size_t kPrefixLength = 5;
             unordered_map<string, std::unordered_set<string>> deletes_;
 
             /**

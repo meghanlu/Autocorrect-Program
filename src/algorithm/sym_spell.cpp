@@ -1,7 +1,7 @@
 #include <algorithm/sym_spell.h>
 namespace autocorrect {
     namespace algorithm {
-        SymSpell::SymSpell(Dictionary const& dictionary) {
+        SymSpell::SymSpell(Dictionary const& dictionary, size_t ed = 5) : kEditDistance(ed) {
             GeneratePrecalculatedDeletes(dictionary);
         }
 
@@ -48,7 +48,7 @@ namespace autocorrect {
 
         vector<string> SymSpell::GenerateDeletes(string const &word) {
             vector<std::pair<string, string>> string_splits;
-            size_t prefix_length = (word.size() > prefix_length_) ? prefix_length_ : word.size();
+            size_t prefix_length = (word.size() > kPrefixLength) ? kPrefixLength : word.size();
             for (size_t i = 0; i < prefix_length; i++) {
                 string_splits.push_back(std::make_pair(word.substr(0, i),
                                                        word.substr(i, word.size() - i)));
