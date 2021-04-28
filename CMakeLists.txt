@@ -59,7 +59,9 @@ list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/visualizer/autocorrect_app.cpp)
 
 list(APPEND TEST_FILES tests/test_dictionary.cpp
-        tests/test_word_list.cpp)
+        tests/test_word_list.cpp
+        tests/test_autocorrect.cpp
+        tests/test_sym_spell.cpp)
 
 add_executable(autocorrect apps/autocorrect_main.cpp ${SOURCE_FILES})
 target_include_directories(autocorrect PRIVATE include)
