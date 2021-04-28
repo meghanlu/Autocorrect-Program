@@ -5,7 +5,28 @@ using autocorrect::WordList;
 using std::vector;
 using std::string;
 
+TEST_CASE("Test Constructors and Contains Frequencies") {
+    SECTION("Empty Constructor") {
+        WordList word_list;
+        REQUIRE_FALSE(word_list.ContainsFrequencies());
+    }
 
+    SECTION("Vector Constructor") {
+        WordList word_list(vector<string>{"zealous", "zeal", "aa", "aaa", "b"});
+        REQUIRE_FALSE(word_list.ContainsFrequencies());
+    }
+
+    SECTION("Frequencies Boolean Constructor") {
+        SECTION("Contains Frequencies") {
+            WordList word_list(true, true);
+            REQUIRE(word_list.ContainsFrequencies());
+        }
+        SECTION("Doesn't Contain Frequencies") {
+            WordList word_list(false, true);
+            REQUIRE_FALSE(word_list.ContainsFrequencies());
+        }
+    }
+}
 
 TEST_CASE("Test Alphabetizing") {
     WordList word_list(vector<string>{"zealous", "zeal", "aa", "aaa", "b"},
