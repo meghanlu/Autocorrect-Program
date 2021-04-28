@@ -29,3 +29,23 @@ TEST_CASE("Test Dictionary With Frequencies") {
     }
 }
 
+TEST_CASE("Test Dictionary Without Frequencies") {
+    std::ifstream ifs2("../../../data/testing_words.txt");
+    autocorrect::WordList word_list;
+    ifs2 >> word_list;
+    Dictionary dict(word_list);
+
+    SECTION("Test Contains Frequencies") {
+        REQUIRE_FALSE(word_list.ContainsFrequencies());
+    }
+
+    SECTION("Test Is Word In Dictionary") {
+        SECTION("Word In Dictionary") {
+            REQUIRE(dict.IsWordInDictionary("apple"));
+        }
+
+        SECTION("Word Not In Dictionary") {
+            REQUIRE(dict.IsWordInDictionary("aospk"));
+        }
+    }
+}
