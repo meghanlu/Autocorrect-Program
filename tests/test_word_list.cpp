@@ -24,7 +24,13 @@ TEST_CASE("Test operator>>") {
         REQUIRE(frequencyWordList.GetWordFrequencies() == expected_freq_map);
     }
 
-
+    SECTION("No Frequency Word List") {
+        std::ifstream ifs("../../../data/testing_words.txt");
+        WordList word_list;
+        ifs >> word_list;
+        vector<string> expected_word_vector = {"apple", "banana", "carrot"};
+        REQUIRE(word_list.GetWordVector() == expected_word_vector);
+    }
 }
 
 TEST_CASE("Test Contains Frequencies In Constructors") {
