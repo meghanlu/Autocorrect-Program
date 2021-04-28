@@ -24,7 +24,7 @@ namespace autocorrect {
                     }
                 }
             }
-            //GenerateAdditionalPrecalculatedDeletes(dictionary, kEditDistance);
+            GenerateAdditionalPrecalculatedDeletes(dictionary, kEditDistance);
         }
 
         void SymSpell::GenerateAdditionalPrecalculatedDeletes(Dictionary const& dictionary,
@@ -44,40 +44,6 @@ namespace autocorrect {
             }
             GenerateAdditionalPrecalculatedDeletes(dictionary, edit_distance - 1);
         }
-
-//    void SymSpell::GeneratePrecalculatedDeletes(vector<string> const& words,
-//                                           size_t remaining_edit_distance) {
-//        if (remaining_edit_distance <= 0) return;
-//        for (string const &word : words) {
-//            if (word.size() > 1) {
-//                vector<string> delete_vector = GenerateDeletes(word);
-//                for (string const &delete_string : delete_vector) {
-//                    auto delete_string_itr = deletes_.find(delete_string);
-//                    if (delete_string_itr == deletes_.end()) {
-//                        deletes_.insert({delete_string, unordered_set<string>{word}});
-//                    } else {
-//                        delete_string_itr->second.insert(word);
-//                    }
-//                }
-////                GeneratePrecalculatedDeletes(delete_vector,
-////                                             remaining_edit_distance - 1);
-//            }
-////            vector<string> delete_vector = GenerateDeletes(word);
-////            if (remaining_edit_distance > 1) {
-////                GeneratePrecalculatedDeletes(delete_vector,
-////                                             remaining_edit_distance - 1);
-////            }
-////            for (string const &delete_string : delete_vector) {
-////                auto delete_string_itr = deletes_.find(delete_string);
-////                if (delete_string_itr == deletes_.end()) {
-////                    deletes_.insert({delete_string, unordered_set<string>{word}});
-////                } else {
-////                    delete_string_itr->second.insert(word);
-////                }
-////            }
-//        }
-//
-//    }
 
 
         vector<string> SymSpell::GetSimilarWords(const string &word,
@@ -200,7 +166,6 @@ namespace autocorrect {
                         size_t t(upper<corner? upper: corner);
                         costs[j+1] = (costs[j]<t?costs[j]:t)+1;
                     }
-
                     corner = upper;
                     j++;
                 }
