@@ -6,11 +6,9 @@ using autocorrect::Dictionary;
 using std::vector;
 using std::string;
 
-
-
 TEST_CASE("Test Dictionary With Frequencies") {
-    std::ifstream ifs("../../../data/testing_word_frequencies.txt");
-    autocorrect::WordList frequencyWordList(false, true);
+    std::ifstream ifs("../../../data/testing_data/testing_word_frequencies.txt");
+    autocorrect::WordList frequencyWordList(true, true);
     ifs >> frequencyWordList;
     Dictionary freq_dict(frequencyWordList);
 
@@ -24,13 +22,13 @@ TEST_CASE("Test Dictionary With Frequencies") {
         }
 
         SECTION("Word Not In Dictionary") {
-            REQUIRE(freq_dict.IsWordInDictionary("testings"));
+            REQUIRE_FALSE(freq_dict.IsWordInDictionary("testings"));
         }
     }
 }
 
 TEST_CASE("Test Dictionary Without Frequencies") {
-    std::ifstream ifs2("../../../data/testing_words.txt");
+    std::ifstream ifs2("../../../data/testing_data/testing_words.txt");
     autocorrect::WordList word_list;
     ifs2 >> word_list;
     Dictionary dict(word_list);
@@ -45,7 +43,7 @@ TEST_CASE("Test Dictionary Without Frequencies") {
         }
 
         SECTION("Word Not In Dictionary") {
-            REQUIRE(dict.IsWordInDictionary("aospk"));
+            REQUIRE_FALSE(dict.IsWordInDictionary("aospk"));
         }
     }
 }
