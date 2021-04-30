@@ -7,7 +7,7 @@ namespace autocorrect {
 
     WordList::WordList(bool is_alphabetized) : is_alphabetized_(is_alphabetized){}
 
-    WordList::WordList(bool is_alphabetized, bool contains_frequencies) :
+    WordList::WordList(bool contains_frequencies, bool is_alphabetized) :
     is_alphabetized_(is_alphabetized), contains_frequencies_(contains_frequencies){}
 
     WordList::WordList(vector<string> const& word_vec, bool is_alphabetized) :
