@@ -30,8 +30,10 @@ namespace autocorrect {
 
             void SetDictionary(Dictionary const& dictionary);
 
+            const unordered_map<string, unordered_set<string>> GetPrecalculatedDeletes() const;
+
         private:
-            const size_t kEditDistance;
+            const size_t kEditDistance = 2;
             const size_t kMaxSuggestedWords = 5;
             const size_t kPrefixLength = 5;
             unordered_map<string, unordered_set<string>> deletes_;
@@ -56,7 +58,13 @@ namespace autocorrect {
 
             vector <string> GenerateInputStringDeletes(const Dictionary &dict, const string &word);
 
-            vector <string> SortWordsByFrequency(const Dictionary &dictionary, vector <string> word_vector);
+            //vector <string> SortWordsByFrequency(const Dictionary &dictionary, vector <string> word_vector) const;
+
+            vector <string> RemoveDuplicateStrings(const vector <string> &word_vector);
+
+            void RemoveDuplicateStrings(vector <string> &word_vector);
+
+            vector <string> SortWordsByFrequency(const Dictionary &dictionary, const vector <string> &word_vector);
         };
     } //namespace algorithm
 } // namespace autocorrect
