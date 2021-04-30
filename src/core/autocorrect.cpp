@@ -29,8 +29,48 @@ namespace autocorrect {
         return suggestions;
     }
 
-
-
+    std::istream &operator>>(std::istream &is, Autocorrect &autocorrect) {
+        unordered_map<string, double> word_frequencies;
+        std::unordered_set<string> words_set;
+        unordered_map<string, std::unordered_set<string>> deletes;
+        string word;
+        vector<string> associated_words;
+        char c_string[500];
+        while(is.getline(c_string, 500)) {
+            char prefix = c_string[0];
+            std::istringstream iss((string(c_string)));
+            string str;
+            switch (prefix) {
+                case '*':
+                    word = "";
+                    while(iss >> str) {
+                        if (str != "*") {
+                            if (str == "") {
+                                word = str;
+                            } else {
+                                word_frequencies.insert(
+                                        std::make_pair(word, std::stod(str)));
+                            }
+                        }
+                    }
+                    break;
+                case '&':
+                    while(iss >> str) {
+                        if (str != "&") {
+                            word = str;
+                        }
+                    }
+                    break;
+                case '%':
+                    deletes.insert(std::make_pair(word, associated_words));
+                    associated_words.clear();
+                    break;
+                default:
+                    associated_words.push_back(str);
+            }
+        }
+        return is;
+    }
 
     std::ostream &operator<<(std::ostream &os, const Autocorrect &autocorrect) {
 
