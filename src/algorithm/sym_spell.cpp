@@ -19,7 +19,6 @@ namespace autocorrect {
                     if (delete_string_itr == deletes_.end()) {
                         deletes_.insert({delete_string, unordered_set<string>{word}});
                     } else {
-                        // TODO: sort suggested word vector by frequency count!!
                         delete_string_itr->second.insert(word);
                     }
                 }
@@ -30,57 +29,69 @@ namespace autocorrect {
         void SymSpell::GenerateAdditionalPrecalculatedDeletes(Dictionary const& dictionary,
                                                               size_t edit_distance) {
             if (edit_distance <= 1) return;
+            vector<string> delete_strings;
             for (const auto &it : deletes_) {
-                for (string const& delete_string : GenerateDeletes(dictionary, it.first)) {
-                    auto delete_string_itr = deletes_.find(delete_string);
-                    if (delete_string_itr == deletes_.end()) {
-                        deletes_.insert({delete_string, it.second});
+                delete_strings.push_back(it.first);
+            }
+            for (string const& del_string : delete_strings) {
+                for (string const& del_of_delete : GenerateDeletes(dictionary, del_string)) {
+                    auto delete_of_delete_itr = deletes_.find(del_of_delete);
+                    if (delete_of_delete_itr == deletes_.end()) {
+                        // If the delete of the delete is not already saved
+                        deletes_.insert({del_of_delete, deletes_.at(del_string)});
                     } else {
-                        for (string const& word: it.second) {
-                            delete_string_itr->second.insert(word);
+                        // If the delete of the delete is already saved
+                        for (string const& word: deletes_.at(del_string)) {
+                            delete_of_delete_itr->second.insert(word);
                         }
                     }
                 }
             }
-            GenerateAdditionalPrecalculatedDeletes(dictionary, edit_distance - 1);
+            //GenerateAdditionalPrecalculatedDeletes(dictionary, edit_distance - 1);
         }
-
 
         vector<string> SymSpell::GetSimilarWords(const string &word,
                                                  const Dictionary &dictionary) {
             vector<string> words_to_return;
-            vector<string> input_deletes = GenerateInputStringDeletes(dictionary, word);
+
+            // 1. Check precalculated deleted strings against input string (deletes)
             for (const auto &it : deletes_) {
                 if (it.first == word) {
                     words_to_return.insert(words_to_return.end(), it.second.begin(),
                                            it.second.end());
                 }
             }
-            for (const string &input_delete : input_deletes) {
+            for (const string &input_delete : GenerateInputStringDeletes(dictionary, word)) {
+                // 2. Check input string deletes against dictionary (adds)
                 if (dictionary.IsWordInDictionary(input_delete)) {
                     words_to_return.push_back(input_delete);
                 }
+                // 3. Check precalculated deletes against input deletes (replaces/transposes)
                 for (const auto &it : deletes_) {
-                    if (it.first == input_delete
-                        && IsWithinEditDistance(it.first, input_delete, kEditDistance)) {
-                        words_to_return.insert(words_to_return.end(), it.second.begin(),
-                                               it.second.end());
+                    if (it.first == input_delete) {
+                        for (string const& possible_correction : it.second) {
+                            if (IsWithinEditDistance(possible_correction,
+                                                     word, kEditDistance)) {
+                                words_to_return.push_back(possible_correction);
+                            }
+                        }
                     }
                 }
             }
-            std::unordered_set<string> s(words_to_return.begin(), words_to_return.end());
-            words_to_return.assign(s.begin(), s.end());
+
+            RemoveDuplicateStrings(words_to_return);
 
             if (dictionary.ContainsFrequencies()) {
-                words_to_return = SortWordsByFrequency(dictionary,
-                                                       words_to_return);
+                words_to_return = SortWordsByFrequency(dictionary,words_to_return);
             }
 
             return words_to_return;
         }
 
+
+
         vector<string> SymSpell::SortWordsByFrequency(Dictionary const& dictionary,
-                                                      vector<string> word_vector) {
+                                                      vector<string> const& word_vector) {
             vector<std::pair<double, string>> frequencies;
             vector<string> sorted_words;
             for (string const& s : word_vector) {
@@ -113,8 +124,7 @@ namespace autocorrect {
             for (std::pair<string, string> const &split_pair : string_splits) {
                 string delete_string = split_pair.first +
                                        split_pair.second.substr(1, split_pair.second.size() - 1);
-                //if (!dictionary.IsWordInDictionary(delete_string))
-                delete_vector.push_back(delete_string);
+                if (!dictionary.IsWordInDictionary(delete_string)) delete_vector.push_back(delete_string);
             }
             return delete_vector;
         }
@@ -127,7 +137,8 @@ namespace autocorrect {
 
             for (size_t ed = 1; ed < kEditDistance; ed++) {
                 for (const string &input_delete : input_deletes) {
-                    for (string const& del : GenerateDeletes(dict, word)) {
+                    for (string const& del : GenerateDeletes(dict, input_delete)) {
+                        std::cout << del << std::endl;
                         deletes_set.insert(del);
                     }
                 }
@@ -176,6 +187,10 @@ namespace autocorrect {
             return result;
         }
 
+        const unordered_map<string, unordered_set<string>>
+                    SymSpell::GetPrecalculatedDeletes() const {
+            return deletes_;
+        }
 
     } //namespace algorithm
 } // namespace autocorrect
