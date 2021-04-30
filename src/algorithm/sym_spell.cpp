@@ -148,6 +148,11 @@ namespace autocorrect {
             return input_deletes;
         }
 
+        void SymSpell::RemoveDuplicateStrings(vector<string> & word_vector) {
+            std::unordered_set<string> s(word_vector.begin(), word_vector.end());
+            word_vector.assign(s.begin(), s.end());
+        }
+
         bool SymSpell::IsWithinEditDistance(const string &original,
                                             const string &other, size_t edit_distance) {
             return GetLevenshteinDistance(original, other) <= edit_distance;

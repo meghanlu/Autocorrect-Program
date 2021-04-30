@@ -35,7 +35,7 @@ namespace autocorrect {
         private:
             const size_t kEditDistance = 2;
             const size_t kMaxSuggestedWords = 5;
-            const size_t kPrefixLength = 5;
+            const size_t kPrefixLength = 7;
             unordered_map<string, unordered_set<string>> deletes_;
 
             /**
