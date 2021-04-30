@@ -34,7 +34,7 @@ namespace autocorrect {
         std::unordered_set<string> words_set;
         unordered_map<string, std::unordered_set<string>> deletes;
         string word;
-        vector<string> associated_words;
+        std::unordered_set<string> associated_words;
         char c_string[500];
         while(is.getline(c_string, 500)) {
             char prefix = c_string[0];
@@ -66,7 +66,7 @@ namespace autocorrect {
                     associated_words.clear();
                     break;
                 default:
-                    associated_words.push_back(str);
+                    associated_words.insert(str);
             }
         }
         return is;
