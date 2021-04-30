@@ -9,23 +9,22 @@ using std::unordered_map;
 
 TEST_CASE("Test operator>>") {
     SECTION("Frequency Word List") {
-        std::ifstream ifs("../../../data/testing_word_frequencies.txt");
-        WordList frequencyWordList(false, true);
+        std::ifstream ifs("../../../data/testing_data/testing_word_frequencies.txt");
+        WordList frequencyWordList(true, false);
         ifs >> frequencyWordList;
 
         vector<string> expected_word_vector = {"meghan", "test", "testing"};
         REQUIRE(frequencyWordList.GetWordVector() == expected_word_vector);
 
-        unordered_map<string, double>  expected_freq_map;
-        for (size_t i = 1; i < 4; i++) {
-            expected_freq_map.insert(
-                    std::make_pair(expected_word_vector.at(i), i));
+        for (size_t i = 0; i < expected_word_vector.size(); i++) {
+            REQUIRE(frequencyWordList.GetWordFrequencies().
+                            at(expected_word_vector.at(i))
+                            == Approx(log(i + 1)));
         }
-        REQUIRE(frequencyWordList.GetWordFrequencies() == expected_freq_map);
     }
 
     SECTION("No Frequency Word List") {
-        std::ifstream ifs("../../../data/testing_words.txt");
+        std::ifstream ifs("../../../data/testing_data/testing_words.txt");
         WordList word_list;
         ifs >> word_list;
         vector<string> expected_word_vector = {"apple", "banana", "carrot"};
@@ -60,7 +59,7 @@ TEST_CASE("Test Alphabetizing") {
     WordList word_list(vector<string>{"zealous", "zeal", "aa", "aaa", "b"},
                        false);
     REQUIRE(word_list.GetWordVector() == vector<string>{"aa", "aaa", "b",
-                                                        "false", "zeal", "zealous"});
+                                                         "zeal", "zealous"});
 
 }
 
