@@ -7,6 +7,7 @@ namespace autocorrect {
         InitializeVariables(vector<string>{});
     }
     Dictionary::Dictionary(Dictionary const &d){
+        words_vector_ = d.words_vector_;
         words_set_ = d.words_set_;
         word_frequencies_ = d.word_frequencies_;
     }
@@ -23,11 +24,11 @@ namespace autocorrect {
     }
 
     void Dictionary::InitializeVariables(vector<string>  const& word_vector) {
+        words_vector_ = word_vector;
         for (string const& word : word_vector) {
             words_set_.insert(word);
         }
     }
-
 
     double Dictionary::GetWordFrequency(const string &word) const {
         auto it = word_frequencies_.find(word);
@@ -40,6 +41,10 @@ namespace autocorrect {
 
     const unordered_map<string, double> Dictionary::GetFrequencies() const {
         return word_frequencies_;
+    }
+
+    vector<string> Dictionary::GetWordVector() const {
+        return words_vector_;
     }
 
 } // namespace autocorrect

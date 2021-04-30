@@ -26,11 +26,12 @@ namespace autocorrect {
         bool IsWordInDictionary(const string& word) const;
 
         double GetWordFrequency(string const& word) const;
-       // vector<string> GetWordVector() const;
+        vector<string> GetWordVector() const;
         bool ContainsFrequencies() const {return !word_frequencies_.empty();};
         const unordered_map<string, double> GetFrequencies() const;
 
     private:
+        vector<string> words_vector_;
         unordered_map<string, double> word_frequencies_;
         std::unordered_set<string> words_set_;
 
