@@ -113,19 +113,23 @@ namespace autocorrect {
         }
 
         vector<string> SymSpell::GenerateDeletes(Dictionary const& dictionary, string const &word) {
-            vector<std::pair<string, string>> string_splits;
             size_t prefix_length = (word.size() > kPrefixLength) ? kPrefixLength : word.size();
-            for (size_t i = 0; i < prefix_length; i++) {
-                string_splits.push_back(std::make_pair(word.substr(0, i),
-                                                       word.substr(i, word.size() - i)));
-
-            }
             vector<string> delete_vector;
-            for (std::pair<string, string> const &split_pair : string_splits) {
-                string delete_string = split_pair.first +
-                                       split_pair.second.substr(1, split_pair.second.size() - 1);
-                if (!dictionary.IsWordInDictionary(delete_string)) delete_vector.push_back(delete_string);
+            for (size_t i = 0; i < prefix_length; i++) {
+                std::string word_delete(word);
+                delete_vector.push_back(word_delete.erase(i, 1));
             }
+//            vector<std::pair<string, string>> string_splits;
+//            for (size_t i = 0; i < prefix_length; i++) {
+//                string_splits.push_back(std::make_pair(word.substr(0, i),
+//                                                       word.substr(i, word.size() - i)));
+//
+//            }
+//            for (std::pair<string, string> const &split_pair : string_splits) {
+//                string delete_string = split_pair.first +
+//                                       split_pair.second.substr(1, split_pair.second.size() - 1);
+//                if (!dictionary.IsWordInDictionary(delete_string)) delete_vector.push_back(delete_string);
+//            }
             return delete_vector;
         }
 
@@ -138,7 +142,6 @@ namespace autocorrect {
             for (size_t ed = 1; ed < kEditDistance; ed++) {
                 for (const string &input_delete : input_deletes) {
                     for (string const& del : GenerateDeletes(dict, input_delete)) {
-                        std::cout << del << std::endl;
                         deletes_set.insert(del);
                     }
                 }
