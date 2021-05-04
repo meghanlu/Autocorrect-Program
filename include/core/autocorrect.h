@@ -9,8 +9,6 @@
 #include <algorithm/sym_spell.h>
 #include <core/dictionary.h>
 
-
-
 namespace autocorrect {
     using std::string;
     using std::vector;

@@ -7,10 +7,10 @@ namespace autocorrect {
     }
 
     std::map<std::string, std::vector<std::string>> Autocorrect::GetCorrections(string const& string) {
-        std::istringstream iss(string);
         std::vector<std::string> words;
         std::map<std::string, std::vector<std::string>> suggestions;
 
+        std::istringstream iss(string);
         std::string word; // for storing each word
         while (iss >> word)
         {
@@ -24,6 +24,10 @@ namespace autocorrect {
                 suggestions.insert(std::pair<std::string,
                                    std::vector<std::string>>(word,
                                            suggested_words));
+            } else {
+//                suggestions.insert(std::pair<std::string,
+//                        std::vector<std::string>>(word,
+//                                vector<std::string>{NULL}));
             }
         }
         return suggestions;
@@ -31,7 +35,6 @@ namespace autocorrect {
 
     std::istream &operator>>(std::istream &is, Autocorrect &autocorrect) {
         unordered_map<string, double> word_frequencies;
-        std::unordered_set<string> words_set;
         unordered_map<string, std::unordered_set<string>> deletes;
         string word;
         std::unordered_set<string> associated_words;
@@ -45,7 +48,7 @@ namespace autocorrect {
                     word = "";
                     while(iss >> str) {
                         if (str != "*") {
-                            if (str == "") {
+                            if (word.empty()) {
                                 word = str;
                             } else {
                                 word_frequencies.insert(
@@ -56,7 +59,7 @@ namespace autocorrect {
                     break;
                 case '&':
                     while(iss >> str) {
-                        if (str != "&") {
+                        if (str != "&" || !str.empty()) {
                             word = str;
                         }
                     }
@@ -66,9 +69,11 @@ namespace autocorrect {
                     associated_words.clear();
                     break;
                 default:
-                    associated_words.insert(str);
+                    associated_words.insert(c_string);
             }
         }
+        autocorrect.dictionary_.SetWordFrequencies(word_frequencies);
+        autocorrect.sym_spell.SetPrecalculatedDeletes(deletes);
         return is;
     }
 
