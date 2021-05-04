@@ -30,7 +30,11 @@ namespace autocorrect {
 
             void SetDictionary(Dictionary const& dictionary);
 
-            const unordered_map<string, unordered_set<string>> GetPrecalculatedDeletes() const;
+            unordered_map<string, unordered_set<string>> GetPrecalculatedDeletes() const;
+
+            void SetPrecalculatedDeletes(const unordered_map<string,
+                                         unordered_set<string>> &deletes);
+
 
         private:
             const size_t kEditDistance = 2;
@@ -42,6 +46,7 @@ namespace autocorrect {
              * Generates all delete possibilities for a word.
              */
             //vector<string> GenerateDeletes(string const &word);
+            vector <string> GenerateDeletes(const Dictionary &dictionary, const string &word);
 
             /**
              * Generates and stores precalculated deletes for a given dictionary.
@@ -54,17 +59,14 @@ namespace autocorrect {
 
             void GenerateAdditionalPrecalculatedDeletes(const Dictionary &dictionary, size_t edit_distance);
 
-            vector <string> GenerateDeletes(const Dictionary &dictionary, const string &word);
-
             vector <string> GenerateInputStringDeletes(const Dictionary &dict, const string &word);
 
             //vector <string> SortWordsByFrequency(const Dictionary &dictionary, vector <string> word_vector) const;
 
-            vector <string> RemoveDuplicateStrings(const vector <string> &word_vector);
-
             void RemoveDuplicateStrings(vector <string> &word_vector);
 
             vector <string> SortWordsByFrequency(const Dictionary &dictionary, const vector <string> &word_vector);
+
         };
     } //namespace algorithm
 } // namespace autocorrect
