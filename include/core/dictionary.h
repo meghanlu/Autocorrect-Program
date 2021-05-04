@@ -24,11 +24,14 @@ namespace autocorrect {
          * Returns if a given word is in the dictionary.
          */
         bool IsWordInDictionary(const string& word) const;
-
         double GetWordFrequency(string const& word) const;
         vector<string> GetWordVector() const;
         bool ContainsFrequencies() const {return !word_frequencies_.empty();};
-        const unordered_map<string, double> GetFrequencies() const;
+        unordered_map<string, double> GetFrequencies() const;
+        void AddFrequencies(unordered_map<string, double> const& frequencies);
+        void AddWords(vector<string> const& words_vector_);
+
+        void SetWordFrequencies(const unordered_map<string, double> &frequencies);
 
     private:
         vector<string> words_vector_;
@@ -39,7 +42,6 @@ namespace autocorrect {
          * Initializes dictionary data structures.
          */
         void InitializeVariables(vector<string> const& word_list);
-
     };
 
 }  // namespace autocorrect

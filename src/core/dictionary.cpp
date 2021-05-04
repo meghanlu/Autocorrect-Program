@@ -39,12 +39,32 @@ namespace autocorrect {
         }
     }
 
-    const unordered_map<string, double> Dictionary::GetFrequencies() const {
+    unordered_map<string, double> Dictionary::GetFrequencies() const {
         return word_frequencies_;
     }
 
     vector<string> Dictionary::GetWordVector() const {
         return words_vector_;
+    }
+
+    void Dictionary::AddFrequencies(unordered_map<string, double> const& frequencies) {
+        word_frequencies_ = frequencies;
+    }
+
+    void Dictionary::AddWords(vector<string> const& word_vector) {
+        words_vector_ = word_vector;
+        words_set_ = std::unordered_set<string>(word_vector.begin(),
+                                                word_vector.end());
+    }
+
+    void Dictionary::SetWordFrequencies(unordered_map<string, double> const& frequencies) {
+        std::unordered_set<string> word_set;
+        for (auto const& pair : frequencies) {
+            word_set.insert(pair.first);
+        }
+        word_frequencies_ = frequencies;
+        words_set_ = word_set;
+        words_vector_.assign(word_set.begin(), word_set.end());
     }
 
 } // namespace autocorrect
