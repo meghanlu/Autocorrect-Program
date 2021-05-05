@@ -59,19 +59,17 @@ void CorrectionBox::Draw() {
 }
 
 std::string CorrectionBox::GetClickedCorrection(vec2 const& click_position) {
-    std::string clicked_string = GetClickedString(click_position);
+    std::string clicked_string = "";
+    for (auto const& correction_rectangle : correction_rectangles_) {
+        if (correction_rectangle.second.contains(click_position)) {
+            clicked_string = correction_rectangle.first;
+            break;
+        }
+    }
     if (!clicked_string.empty()) ClearSavedCorrections();
     return clicked_string;
 }
 
-std::string CorrectionBox::GetClickedString(vec2 const& position) {
-    for (auto const& correction_rectangle : correction_rectangles_) {
-        if (correction_rectangle.second.contains(position)) {
-            return correction_rectangle.first;
-        }
-    }
-    return "";
-}
 
 void CorrectionBox::ClearSavedCorrections() {
     correction_rectangles_.clear();
