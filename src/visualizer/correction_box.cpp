@@ -30,6 +30,35 @@ void CorrectionBox::InitializeCorrections(std::pair<std::string, size_t> const& 
     contains_corrections_ = true;
 }
 
+    void CorrectionBox::Draw() {
+        // Draw solid box color
+        ci::gl::color(ci::Color("white"));
+        ci::gl::drawSolidRect(ci::Rectf(kTopLeftCoordinates,
+                                        kBottomRightCoordinates));
+        ci::gl::color(ci::Color("black"));
+        if (correction_rectangles_.empty()) {
+            ci::gl::drawStrokedRect(ci::Rectf(kTopLeftCoordinates,
+                                              kBottomRightCoordinates));
+            ci::gl::drawStringCentered("Sorry, we could not find suggestions",
+                                       ci::Rectf(kTopLeftCoordinates,
+                                                 kBottomRightCoordinates).getCenter(),
+                                       ci::Color("black"),
+                                       ci::Font("Times New Roman", 30));
+        } else {
+            // Draw each individual correction box
+            for (auto const& correction_rectangle : correction_rectangles_) {
+                ci::gl::drawStrokedRect(correction_rectangle.second);
+                ci::gl::drawStringCentered(correction_rectangle.first,
+                                           correction_rectangle.second.getCenter(),
+                                           ci::Color("black"),
+                                           ci::Font("Times New Roman", 30));
+            }
+        }
+        ci::gl::color(ci::Color("white"));
+    }
+
+
+
 
 }  // namespace visualizer
 
