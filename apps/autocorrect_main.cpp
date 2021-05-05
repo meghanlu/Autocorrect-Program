@@ -15,26 +15,31 @@ using autocorrect::Autocorrect;
 
 
 int main() {
-//    autocorrect::WordList word_list(vector<string>{"Zealous", "false",
-//                                                   "zeal", "aa", "aAa", "B"},
-//                                                                false);
-//    vector<string> alphabetical{"aa", "aaa", "b", "false", "zeal", "zealous"};
-//    auto a2 = word_list.GetWordVector();
-//    for (size_t i = 0; i < alphabetical.size(); i++) {
-//        std::cout<< alphabetical[i] << " = " << a2[i] << std::endl;
-//    }
 
-    // Parses training images from a file to a vector of images
-    std::ifstream ifs("../data/testing_words.txt");
-    WordList all_words(true);
-    ifs >> all_words;
-    ifs.close();
-    Dictionary dict(all_words);
-    Autocorrect varname(dict);
-    //SymSpell sym_spell(dictionary);
-//    for (string const& suggestion : sym_spell.GetSimilarWords("aaa")) {
-//        std::cout<< suggestion << std::endl;
-//    }
+    std::ifstream ifs("../data/testing_frequencies");
+    WordList frequencyWordList(true, false);
+    ifs >> frequencyWordList;
+
+    Dictionary dictionary(frequencyWordList);
+    Autocorrect autocorrect(dictionary);
+
+    std::ofstream ofs("../data/saved_autocorrect");
+    ofs << autocorrect;
+    ofs.close();
+    Autocorrect autocorrect_2;
+
+    std::ifstream ifs2("../data/saved_autocorrect");
+    ifs2 >> autocorrect_2;
+    std::cout << "Corrections:" << std::endl;
+    auto corrections = autocorrect_2.GetCorrections(
+            "alforithm bana withpp pancaek");
+    for (auto it = corrections.begin(); it != corrections.end(); ++it) {
+        std::cout<< it->first << ": ";
+        for (string const& correct_word : it->second) {
+            std::cout<< correct_word << ", ";
+        }
+        std::cout << std::endl;
+    }
 
     std::cout << "Done" << std::endl;
     return 0;
