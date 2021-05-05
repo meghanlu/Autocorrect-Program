@@ -60,6 +60,34 @@ namespace visualizer {
     }
 
 
+
+    bool CorrectionMode::HandleClickChanges(vec2 const& click_position) {
+        if (correction_box_.ContainsCorrections()) {
+            pair<string, size_t> word_to_correct = correction_box_.GetWordToCorrect();
+            string clicked_string = correction_box_.GetClickedCorrection(click_position);
+            if (!clicked_string.empty()) {
+                text_.erase(word_to_correct.second, word_to_correct.first.size());
+                text_.insert(word_to_correct.second, clicked_string);
+                return true;
+            }
+        }
+        for (auto const &incorrect_word : incorrect_words) {
+            Rectf word_rect = incorrect_word.second;
+            if (word_rect.getLowerRight().x <= click_position.x
+                && word_rect.getLowerRight().y <= click_position.y
+                && word_rect.getUpperLeft().x >= click_position.x
+                && word_rect.getUpperLeft().y >= click_position.y
+                    ) {
+                correction_box_.InitializeCorrections(incorrect_word.first,
+                                                      corrections_.at(
+                                                              incorrect_word.first.first));
+            }
+        }
+        return false;
+    }
+
+
+
 }  // namespace visualizer
 
 }  // namespace autocorrect
