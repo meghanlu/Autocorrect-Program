@@ -9,6 +9,7 @@ CorrectionBox::CorrectionBox(vec2 const& top_left_coordinates,
                              vec2 const& bottom_right_coordinates)
                              : kTopLeftCoordinates(top_left_coordinates),
                              kBottomRightCoordinates(bottom_right_coordinates){
+
 }
 
 void CorrectionBox::InitializeCorrections(std::pair<std::string, size_t> const& word_to_correct,
@@ -39,7 +40,7 @@ void CorrectionBox::Draw() {
     if (correction_rectangles_.empty()) {
         ci::gl::drawStrokedRect(ci::Rectf(kTopLeftCoordinates,
                                           kBottomRightCoordinates));
-        ci::gl::drawStringCentered("Sorry, we could not find suggestions",
+        ci::gl::drawStringCentered(kNoSuggestionsMessage,
                                    ci::Rectf(kTopLeftCoordinates,
                                     kBottomRightCoordinates).getCenter(),
                                    ci::Color("black"),
