@@ -57,6 +57,20 @@ void CorrectionBox::InitializeCorrections(std::pair<std::string, size_t> const& 
         ci::gl::color(ci::Color("white"));
     }
 
+    std::string CorrectionBox::GetClickedCorrection(vec2 const& click_position) {
+        std::string clicked_string = GetClickedString(click_position);
+        if (!clicked_string.empty()) ClearSavedCorrections();
+        return clicked_string;
+    }
+
+    std::string CorrectionBox::GetClickedString(vec2 const& position) {
+        for (auto const& correction_rectangle : correction_rectangles_) {
+            if (correction_rectangle.second.contains(position)) {
+                return correction_rectangle.first;
+            }
+        }
+        return "";
+    }
 
 
 
