@@ -72,6 +72,12 @@ void CorrectionBox::InitializeCorrections(std::pair<std::string, size_t> const& 
         return "";
     }
 
+    void CorrectionBox::ClearSavedCorrections() {
+        correction_rectangles_.clear();
+        contains_corrections_ = false;
+    }
+
+
 
 
 }  // namespace visualizer
