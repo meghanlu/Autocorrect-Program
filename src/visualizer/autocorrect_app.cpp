@@ -24,6 +24,16 @@ AutocorrectApp::AutocorrectApp() {
         if (!is_edit_mode_) correction_mode_.Draw();
     }
 
+    void AutocorrectApp::mouseDown(ci::app::MouseEvent event) {
+        if (!is_edit_mode_) {
+            if (correction_mode_.HandleClickChanges(event.getPos())) {
+                textBox.setText(correction_mode_.GetTextString());
+                correction_mode_.SetTextAndCorrections(textBox,
+                                                       autocorrect_.GetCorrections(correction_mode_.GetTextString()));
+            }
+        }
+    }
+
 
 
 
