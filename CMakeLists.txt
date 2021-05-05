@@ -56,7 +56,10 @@ list(APPEND CORE_SOURCE_FILES src/core/autocorrect.cpp
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/algorithm/sym_spell.cpp
-        src/visualizer/autocorrect_app.cpp)
+        src/visualizer/autocorrect_app.cpp
+        src/visualizer/correction_mode.cpp
+        src/visualizer/edit_mode.cpp
+        src/visualizer/correction_box.cpp)
 
 list(APPEND TEST_FILES tests/test_dictionary.cpp
         tests/test_word_list.cpp
@@ -64,7 +67,7 @@ list(APPEND TEST_FILES tests/test_dictionary.cpp
         tests/test_sym_spell.cpp)
 
 add_executable(autocorrect apps/autocorrect_main.cpp ${SOURCE_FILES})
-target_include_directories(autocorrect PRIVATE include)
+target_include_directories(autocorrect PUBLIC include)
 
 ci_make_app(
         APP_NAME        cinder-app-main
