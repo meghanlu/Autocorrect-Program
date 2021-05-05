@@ -22,20 +22,13 @@ namespace visualizer {
 class AutocorrectApp : public ci::app::App {
 public:
     AutocorrectApp();
-
     AutocorrectApp(Autocorrect autocorrect);
-
-
     void update() override;
     void draw() override;
     void mouseDown(ci::app::MouseEvent event) override;
-    void mouseDrag(ci::app::MouseEvent event) override;
     void keyDown(ci::app::KeyEvent event) override;
 
-
-
 private:
-//    string* text_string;
     const double kXWindowSize = 1920;
     const double kYWindowSize = 1106;
     const double kMargin = 100;
@@ -50,5 +43,4 @@ private:
 };
 
 }  // namespace visualizer
-
 }  // namespace autocorrect
