@@ -34,6 +34,19 @@ AutocorrectApp::AutocorrectApp() {
         }
     }
 
+    void AutocorrectApp::keyDown(ci::app::KeyEvent event) {
+        if (event.getCode() == ci::app::KeyEvent::KEY_RETURN) {
+            is_edit_mode_ = !is_edit_mode_;
+            if (!is_edit_mode_) {
+                correction_mode_.SetTextAndCorrections(textBox,
+                                                       autocorrect_.GetCorrections(textBox.getText()));
+            } else {
+                editMode.SetTextString(textBox.getText());
+            }
+        } else if (is_edit_mode_) {
+            editMode.HandleKeyDownEvent(event);
+        }
+    }
 
 
 
