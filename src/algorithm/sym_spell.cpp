@@ -26,15 +26,16 @@ namespace algorithm {
         GenerateAdditionalPrecalculatedDeletes(dictionary, kEditDistance);
     }
 
-    void SymSpell::GenerateAdditionalPrecalculatedDeletes(Dictionary const& dictionary,
-                                                          size_t edit_distance) {
+    void SymSpell::GenerateAdditionalPrecalculatedDeletes(
+                        Dictionary const& dictionary, size_t edit_distance) {
         if (edit_distance <= 1) return;
         vector<string> delete_strings;
         for (const auto &it : deletes_) {
             delete_strings.push_back(it.first);
         }
         for (string const& del_string : delete_strings) {
-            for (string const& del_of_delete : GenerateDeletes(dictionary, del_string)) {
+            for (string const& del_of_delete :
+                                     GenerateDeletes(dictionary, del_string)) {
                 auto delete_of_delete_itr = deletes_.find(del_of_delete);
                 if (delete_of_delete_itr == deletes_.end()) {
                     // If the delete of the delete is not already saved
@@ -61,7 +62,8 @@ namespace algorithm {
                                        it.second.end());
             }
         }
-        for (const string &input_delete : GenerateInputStringDeletes(dictionary, word)) {
+        for (const string &input_delete :
+                                GenerateInputStringDeletes(dictionary, word)) {
             // 2. Check input string deletes against dictionary (adds)
             if (dictionary.IsWordInDictionary(input_delete)) {
                 words_to_return.push_back(input_delete);
@@ -87,14 +89,13 @@ namespace algorithm {
         return words_to_return;
     }
 
-
-
     vector<string> SymSpell::SortWordsByFrequency(Dictionary const& dictionary,
-                                                  vector<string> const& word_vector) {
+                                           vector<string> const& word_vector) {
         vector<std::pair<double, string>> frequencies;
         vector<string> sorted_words;
         for (string const& s : word_vector) {
-            frequencies.push_back(std::make_pair(dictionary.GetWordFrequency(s), s));
+            frequencies.push_back(
+                    std::make_pair(dictionary.GetWordFrequency(s), s));
         }
 
         auto compare_by_frequency = [](std::pair<double, string>& a,
@@ -111,8 +112,10 @@ namespace algorithm {
         return sorted_words;
     }
 
-    vector<string> SymSpell::GenerateDeletes(Dictionary const& dictionary, string const &word) {
-        size_t prefix_length = (word.size() > kPrefixLength) ? kPrefixLength : word.size();
+    vector<string> SymSpell::GenerateDeletes(Dictionary const& dictionary,
+                                             string const &word) {
+        size_t prefix_length =
+                (word.size() > kPrefixLength) ? kPrefixLength : word.size();
         vector<string> delete_vector;
         for (size_t i = 0; i < prefix_length; i++) {
             std::string word_delete(word);
@@ -149,6 +152,8 @@ namespace algorithm {
         return GetLevenshteinDistance(original, other) <= edit_distance;
     }
 
+    // Code below derived from:
+    // https://rosettacode.org/wiki/Levenshtein_distance#C.2B.2B
     size_t SymSpell::GetLevenshteinDistance(const string &s1, const string &s2)
     {
         const size_t m(s1.size()), n(s2.size());
