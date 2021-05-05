@@ -68,6 +68,7 @@ void CorrectionMode::Draw() {
     }
     // Draw correction box if there is one
     if (correction_box_.ContainsCorrections()) correction_box_.Draw();
+    ci::gl::color(ci::Color("white"));
 }
 
 bool CorrectionMode::HandleClickChanges(vec2 const& click_position) {
