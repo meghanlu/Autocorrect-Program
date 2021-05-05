@@ -18,5 +18,13 @@ void EditMode::HandleKeyDownEvent(ci::app::KeyEvent event) {
     }
 }
 
+void EditMode::SetTextString(const string &text_string) {
+    text_string_ = text_string;
+}
+
+string EditMode::GetTextString() {
+    return text_string_;
+}
+
 }  // namespace visualizer
 }  // namespace autocorrect
