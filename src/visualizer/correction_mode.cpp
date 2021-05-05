@@ -59,7 +59,15 @@ namespace visualizer {
 
     }
 
-
+    void CorrectionMode::Draw() {
+        // Draw boxes around incorrect words
+        for (auto const& incorrect_word : incorrect_words) {
+            ci::gl::color(ci::Color("red"));
+            ci::gl::drawStrokedRect(incorrect_word.second);
+        }
+        // Draw correction box if there is one
+        if (correction_box_.ContainsCorrections()) correction_box_.Draw();
+    }
 
     bool CorrectionMode::HandleClickChanges(vec2 const& click_position) {
         if (correction_box_.ContainsCorrections()) {
