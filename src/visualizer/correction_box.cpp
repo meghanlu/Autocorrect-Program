@@ -9,7 +9,6 @@ CorrectionBox::CorrectionBox(vec2 const& top_left_coordinates,
                              vec2 const& bottom_right_coordinates)
                              : kTopLeftCoordinates(top_left_coordinates),
                              kBottomRightCoordinates(bottom_right_coordinates){
-
 }
 
 void CorrectionBox::InitializeCorrections(std::pair<std::string, size_t> const& word_to_correct,
