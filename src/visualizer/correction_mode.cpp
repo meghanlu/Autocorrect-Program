@@ -5,7 +5,7 @@ namespace autocorrect {
 namespace visualizer {
 
     void CorrectionMode::SetTextAndCorrections(const TextBox &textbox,
-                     map<string, vector<string>> const& corrections) {
+                                               map<string, vector<string>> const& corrections) {
         incorrect_words.clear();
         corrections_ = corrections;
         text_ = textbox.getText();
@@ -21,8 +21,7 @@ namespace visualizer {
                 if (!word.empty()) {
                     right_position = textbox.measureGlyphs().at(i - 1).second
                                      + vec2(50, 50)
-                                     + vec2(20, 0)
-                                     + vec2(0, 32);
+                                     + vec2(20, 32);
 
                     words_and_positions.push_back(std::make_pair(
                             std::make_pair(word, word_first_index),
@@ -44,8 +43,7 @@ namespace visualizer {
             right_position = textbox.measureGlyphs().at(
                     textbox.measureGlyphs().size() - 1).second
                              + vec2(50, 50)
-                             + vec2(25, 0)
-                             + vec2(0, 32);
+                             + vec2(25, 32);
 
             words_and_positions.push_back(std::make_pair(
                     std::make_pair(word, word_first_index),
@@ -61,42 +59,6 @@ namespace visualizer {
 
     }
 
-    void CorrectionMode::Draw() {
-        // Draw all red rectangles!!!!
-        // Draw correction box IF clicked on !!!!
-        // UPDATE RED RECTANGLES......
-        for (auto const& incorrect_word : incorrect_words) {
-            ci::gl::color(ci::Color("orange"));
-            ci::gl::drawStrokedRect(incorrect_word.second);
-        }
-        if (correction_box_.ContainsCorrections()) correction_box_.Draw();
-        ci::gl::color(ci::Color("white"));
-    }
-
-    bool CorrectionMode::HandleClickChanges(vec2 const& click_position) {
-        if (correction_box_.ContainsCorrections()) {
-            pair<string, size_t> word_to_correct = correction_box_.GetWordToCorrect();
-            string clicked_string = correction_box_.GetClickedCorrection(click_position);
-            if (!clicked_string.empty()) {
-                text_.erase(word_to_correct.second, word_to_correct.first.size());
-                text_.insert(word_to_correct.second, clicked_string);
-                return true;
-            }
-        }
-        for (auto const &incorrect_word : incorrect_words) {
-            Rectf word_rect = incorrect_word.second;
-            if (word_rect.getLowerRight().x <= click_position.x
-            && word_rect.getLowerRight().y <= click_position.y
-            && word_rect.getUpperLeft().x >= click_position.x
-            && word_rect.getUpperLeft().y >= click_position.y
-            ) {
-                correction_box_.InitializeCorrections(incorrect_word.first,
-                                                      corrections_.at(
-                                                              incorrect_word.first.first));
-            }
-        }
-        return false;
-    }
 
 }  // namespace visualizer
 
