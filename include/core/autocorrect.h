@@ -6,28 +6,38 @@
 #include <utility>
 #include <iostream>
 #include <sstream>
-#include <core/dictionary.h>
 #include <algorithm/sym_spell.h>
+#include <core/dictionary.h>
+
 
 
 namespace autocorrect {
     using std::string;
     using std::vector;
-    using autocorrect::algorithm::SymSpell;
 
     class Autocorrect {
 
     public:
-        Autocorrect();
+        Autocorrect() {};
         Autocorrect(Dictionary const& dictionary);
+
+        /**
+         * Encodes and saves an autocorrect model to a file.
+         */
+        friend std::ostream &operator<<(std::ostream &os, const Autocorrect &autocorrect);
+
+        /**
+         * Loads an autocorrect model from an encoded file.
+         */
+        friend std::istream &operator>>(std::istream &is, Autocorrect &autocorrect);
 
         /**
          * Gives a map with words that are incorrect and a vector of possible corrections.
          */
-        std::map<std::string, std::vector<std::string>> GiveFeedback(string const& str);
+        std::map<std::string, std::vector<std::string>> GetCorrections(string const& str);
 
     private:
-        SymSpell sym_spell;
+        autocorrect::algorithm::SymSpell sym_spell;
         Dictionary dictionary_;
     };
 
