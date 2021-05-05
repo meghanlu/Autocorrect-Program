@@ -52,10 +52,10 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND CORE_SOURCE_FILES src/core/autocorrect.cpp
         src/core/dictionary.cpp
-        src/core/word_list.cpp)
+        src/core/word_list.cpp
+        src/core/algorithm/sym_spell.cpp)
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
-        src/algorithm/sym_spell.cpp
         src/visualizer/autocorrect_app.cpp
         src/visualizer/correction_mode.cpp
         src/visualizer/edit_mode.cpp

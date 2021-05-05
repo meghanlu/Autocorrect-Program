@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <core/word_list.h>
-#include <algorithm/sym_spell.h>
+#include <core/algorithm/sym_spell.h>
 #include <core/dictionary.h>
 #include <core/autocorrect.h>
 #include <fstream>

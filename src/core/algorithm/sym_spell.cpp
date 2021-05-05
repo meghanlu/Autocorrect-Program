@@ -1,4 +1,4 @@
-#include <algorithm/sym_spell.h>
+#include <core/algorithm/sym_spell.h>
 namespace autocorrect {
 namespace algorithm {
 
